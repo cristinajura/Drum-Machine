@@ -1,0 +1,231 @@
+$padWidth: 100px;
+$padHeight: 80px;
+
+#app {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.drum-machine-container {
+  width: 660px;
+  height: 320px;
+  background: #cdc;
+  border: 5px solid #ee2;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  .drum-pad-container {
+    width: $padWidth * 3 + 20;
+    height: $padHeight * 3 + 25;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 10px;
+    margin-left: 10px;
+    .drum-pad {
+      width: $padWidth;
+      height: $padHeight;
+      border-radius: 5px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+  .controls-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 10px;
+    #power {
+      width: 60px;
+      height: 25px;
+      background: black;
+      margin-top: -15px;
+    }
+    #display {
+      width: 200px;
+      height: 50px;
+      background: #787;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    #volume {
+      width: 240px;
+    }
+    #bank {
+      width: 60px;
+      height: 25px;
+      background: black;
+      margin-top: -15px;
+    }
+  }
+  .buttonSlider {
+    height: 20px;
+    width: 28px;
+    background: green;
+    margin: 2px;
+    cursor: pointer;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .drum-machine-container {
+    flex-direction: column;
+    width: 380px;
+    height: 550px;
+    .drum-pad-container {
+      margin-left: -4px;
+    }
+    .controls-container {
+      margin-bottom: 20px;
+      margin-top: -10px;
+      margin-right: -4px;
+    }
+    @media screen and (max-width: 400px) {
+      transform: scale(0.8);
+    }
+  }
+}
+
+// CUSTOM RANGE INPUT : Credit : https://github.com/darlanrod/input-range-scss/blob/master/_inputrange.scss
+
+$track-color: #424242 !default;
+$thumb-color: green !default;
+
+$thumb-radius: 0 !default;
+$thumb-height: 25px !default;
+$thumb-width: 8px !default;
+$thumb-shadow-size: 1px !default;
+$thumb-shadow-blur: 1px !default;
+$thumb-shadow-color: #111 !default;
+$thumb-border-width: 0 !default;
+$thumb-border-color: #fff !default;
+
+$track-width: 100% !default;
+$track-height: 5px !default;
+$track-shadow-size: 2px !default;
+$track-shadow-blur: 2px !default;
+$track-shadow-color: #222 !default;
+$track-border-width: 1px !default;
+$track-border-color: #000 !default;
+
+$track-radius: 0 !default;
+$contrast: 5% !default;
+
+@mixin shadow($shadow-size, $shadow-blur, $shadow-color) {
+  box-shadow: $shadow-size $shadow-size $shadow-blur $shadow-color,
+    0 0 $shadow-size lighten($shadow-color, 5%);
+}
+
+@mixin track() {
+  width: $track-width;
+  height: $track-height;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+@mixin thumb() {
+  @include shadow($thumb-shadow-size, $thumb-shadow-blur, $thumb-shadow-color);
+  border: $thumb-border-width solid $thumb-border-color;
+  height: $thumb-height;
+  width: $thumb-width;
+  border-radius: $thumb-radius;
+  background: $thumb-color;
+  cursor: pointer;
+}
+
+[type="range"] {
+  -webkit-appearance: none;
+  margin: $thumb-height / 2 0;
+  width: $track-width;
+
+  &:focus {
+    outline: none;
+  }
+
+  &::-webkit-slider-runnable-track {
+    @include track();
+    @include shadow(
+      $track-shadow-size,
+      $track-shadow-blur,
+      $track-shadow-color
+    );
+    background: $track-color;
+    border: $track-border-width solid $track-border-color;
+    border-radius: $track-radius;
+  }
+
+  &::-webkit-slider-thumb {
+    @include thumb();
+    -webkit-appearance: none;
+    margin-top: ((-$track-border-width * 2 + $track-height) / 2) -
+      ($thumb-height / 2);
+  }
+
+  &:focus::-webkit-slider-runnable-track {
+    background: lighten($track-color, $contrast);
+  }
+
+  &::-moz-range-track {
+    @include track();
+    @include shadow(
+      $track-shadow-size,
+      $track-shadow-blur,
+      $track-shadow-color
+    );
+    background: $track-color;
+    border: $track-border-width solid $track-border-color;
+    border-radius: $track-radius;
+  }
+
+  &::-moz-range-thumb {
+    @include thumb();
+  }
+
+  &::-ms-track {
+    @include track();
+    background: transparent;
+    border-color: transparent;
+    border-width: $thumb-width 0;
+    color: transparent;
+  }
+
+  &::-ms-fill-lower {
+    @include shadow(
+      $track-shadow-size,
+      $track-shadow-blur,
+      $track-shadow-color
+    );
+    background: darken($track-color, $contrast);
+    border: $track-border-width solid $track-border-color;
+    border-radius: $track-radius * 2;
+  }
+
+  &::-ms-fill-upper {
+    @include shadow(
+      $track-shadow-size,
+      $track-shadow-blur,
+      $track-shadow-color
+    );
+    background: $track-color;
+    border: $track-border-width solid $track-border-color;
+    border-radius: $track-radius * 2;
+  }
+
+  &::-ms-thumb {
+    @include thumb();
+  }
+
+  &:focus::-ms-fill-lower {
+    background: $track-color;
+  }
+
+  &:focus::-ms-fill-upper {
+    background: lighten($track-color, $contrast);
+  }
+}
